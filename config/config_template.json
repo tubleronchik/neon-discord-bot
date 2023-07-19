@@ -4,5 +4,6 @@
     "xrt_contract_address": "",
     "amount": 2000000000,
     "guild": "",
-    "token": ""
+    "token": "",
+    "channel": ""
 }
