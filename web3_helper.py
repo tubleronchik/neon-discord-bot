@@ -1,5 +1,7 @@
 import web3
 import json
+from web3.middleware import construct_sign_and_send_raw_middleware
+from eth_account import Account
 
 from utils import to_thread
 
@@ -8,8 +10,11 @@ def download_xrt_abi() -> dict:
         xrt_abi = json.load(f)
     return xrt_abi
 
-def setup_provider(http_provider: str) -> web3.Web3:
-    return web3.Web3(web3.Web3.HTTPProvider(http_provider))
+def setup_provider(http_provider: str, pk) -> web3.Web3:
+    provider_account = Account.from_key(pk)
+    w3 = web3.Web3(web3.Web3.HTTPProvider(http_provider))
+    w3.middleware_onion.add(construct_sign_and_send_raw_middleware(provider_account))
+    return w3
 
 def get_contract(w3: web3.Web3, xrt_address: str) -> web3.contract.Contract:
     abi = download_xrt_abi()

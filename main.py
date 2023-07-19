@@ -5,7 +5,7 @@ import web3
 
 client = discord.Client(heartbeat_timeout=120)
 config = read_config()
-w3 = setup_provider(config["http_node_provider"])
+w3 = setup_provider(config["http_node_provider"], config["owner_pk"])
 xrt = get_contract(w3, config["xrt_contract_address"])
 
 @client.event
@@ -31,9 +31,9 @@ async def on_message(message):
                 address = word
                 tx_hash = await transfer(xrt, w3, address, config["xrt_owner"], config["amount"])
                 if tx_hash:
-                    await message.channel.send(f"Address {address} from {message.author} was successfully added to subscription")
+                    await message.channel.send(f"Send XRT to Address {address} from {message.author}. Tx hash: {tx_hash}")
                 else:
-                    await message.channel.send(f"Address {address} from {message.author} wasn't added to subscription\n Please, send your address again")
+                    await message.channel.send(f"Couldn't send XRT to {address} from {message.author}.\n Please, send your address again")
                 break
             else:
                 await message.channel.send(f"Message {word} from {message.author} is not one of the recognized address formats. Please, provide correct address.")
