@@ -31,7 +31,7 @@ async def on_message(message):
                 address = word
                 tx_hash = await transfer(xrt, w3, address, config["xrt_owner"], config["amount"])
                 if tx_hash:
-                    await message.channel.send(f"Send XRT to Address {address} from {message.author}. Tx hash: {tx_hash}")
+                    await message.channel.send(f"XRT to Address {address} from {message.author} was sent. Tx hash: {tx_hash}")
                 else:
                     await message.channel.send(f"Couldn't send XRT to {address} from {message.author}.\n Please, send your address again")
                 break
